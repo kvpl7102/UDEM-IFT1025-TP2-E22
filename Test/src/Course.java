@@ -24,7 +24,7 @@ public class Course {
 
 
     /**
-     * Getters and Setters methods for course name and course number
+     * Getters and Setters methods for course's name and course's number
      * 
      */
     // Getter for course name
@@ -56,7 +56,6 @@ public class Course {
      */
     public void addCourseDay(int dayOfWeek) {
         ArrayList<Object> courseHour = new ArrayList<>();
-
         courseHour.add(DayOfWeek.of(dayOfWeek));
 
         /* -------------------------------------------------------------------------------------------------------- */
@@ -75,8 +74,6 @@ public class Course {
 
         /* -------------------------------------------------------------------------------------------------------- */
         courseHours.add(courseHour);
-
-        scanner.reset();
     }
 
     // Display the course hours
@@ -91,50 +88,82 @@ public class Course {
     }
 
     /**
-     * Getters and Setters methods for course date
+     * Getters and Setters methods for course's dates
      * 
      */
+    public LocalDate getStartDate() {
+        return this.startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return this.endDate;
+    }
+
+    public LocalDate getIntraDate() {
+        return this.intraDate;
+    }
+
+    public LocalDate getFinalDate() {
+        return this.finalDate;
+    }
+
+    public void setCourseDate() {
+        System.out.print("Enter the course's year: ");
+        int courseYear = scanner.nextInt();
+
+        /* ---------------------------------------------------------------------------------------------- */
+        System.out.print("Enter the course's start month: ");
+        int startMonth = scanner.nextInt();
+
+        System.out.print("Enter the course's start date: ");
+        int startDate = scanner.nextInt();
+
+        LocalDate courseStartDate = LocalDate.of(courseYear, startMonth, startDate);
+        this.startDate = courseStartDate;
+
+        /* ---------------------------------------------------------------------------------------------- */
+        System.out.print("Enter the course's end month: ");
+        int endMonth = scanner.nextInt();
+
+        System.out.print("Enter the course's end date: ");
+        int endDate = scanner.nextInt();
+
+        LocalDate courseEndDate = LocalDate.of(courseYear, endMonth, endDate);
+        this.endDate= courseEndDate;
+
+        /* ---------------------------------------------------------------------------------------------- */
+        System.out.print("Enter the intra's month: ");
+        int intraMonth = scanner.nextInt();
+
+        System.out.print("Enter the intra's date: ");
+        int intraDate = scanner.nextInt();
+
+        LocalDate courseIntraDate = LocalDate.of(courseYear, intraMonth, intraDate);
+        this.intraDate = courseIntraDate;
+
+        /* ---------------------------------------------------------------------------------------------- */
+        System.out.print("Enter the final's month: ");
+        int finalMonth = scanner.nextInt();
+
+        System.out.print("Enter the final's date: ");
+        int finalDate = scanner.nextInt();
+
+        LocalDate courseFinalDate = LocalDate.of(courseYear, finalMonth, finalDate);
+        this.finalDate = courseFinalDate;
+        
+    }
+
     // Date formatter as a string (e.g: 6-Jul-2022)
     DateTimeFormatter formattedDate = DateTimeFormatter.ofPattern("dd-MMM-yyyy"); 
 
-    // Getter for start date
-    public String getStartDate() {
-        String formattedStartDate =  this.startDate.format(formattedDate);
-        return formattedStartDate;
-    }
-
-    // Setter for start date
-    public void setStartDate(int year, int month, int dayOfMonth) {
-        this.startDate = LocalDate.of(year, month, dayOfMonth);      
-    }
-
-    // Getter for end date
-    public String getEndDate() {
-        String formattedEndDate =  this.endDate.format(formattedDate);
-        return formattedEndDate;
-    }
-
-    // Setter for end date
-    public void setEndDate(int year, int month, int dayOfMonth) {
-        this.endDate = LocalDate.of(year, month, dayOfMonth);
-    }
-
-    // Getter for intra's date
-    public String getIntraDate() {
-        String formattedStartDate =  this.intraDate.format(formattedDate);
-        return formattedStartDate;
-    }
-
-    // Setter for intra's date 
-    public void setIntraDate(int year, int month, int dayOfMonth) {
-        this.intraDate = LocalDate.of(year, month, dayOfMonth);      
-    }
 
     // Display all the course's dates
     public String getCourseDate() {
-        return  "Course: " + this.courseName + this.courseNumber + "\n"  
-                + "Start Date: " + this.getStartDate() + "\n" 
-                + "End Date: " + this.getEndDate() + "\n";
+        return "\n" + "Course: " + this.courseName + this.courseNumber + "\n"  
+                + "Start Date: " + this.getStartDate().format(formattedDate) + "\n" 
+                + "End Date: " + this.getEndDate().format(formattedDate) + "\n"
+                + "Intra Date: " + this.getIntraDate().format(formattedDate) + "\n"
+                + "Final Date: " + this.getFinalDate().format(formattedDate) + "\n";
     }   
 
     @Override
