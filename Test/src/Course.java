@@ -6,6 +6,7 @@ public class Course {
 
     private String courseSubject;
     private int courseNumber;
+    private int courseYear = 0;
 
     private LocalDate startDate;
     private LocalDate endDate;
@@ -30,22 +31,23 @@ public class Course {
         while (true) {
             scanner.reset();
             System.out.println(
-                    "\nWhat would you like to do? Enter the appropriate number: \n 1 - Set up course's dates; 2 - Set up course's hours; 3 - See course's infos; 4 - Quit ");
+                    "\nWhat would you like to do? Enter the appropriate number choice: \n 1 - Set up course's dates; 2 - Set up course's hours; 3 - See course's infos; 4 - Quit ");
 
             while (!scanner.hasNextInt()) {
                 System.out.println("Enter a valid number choice");
-                continue;
+                scanner.next();
             }
             int answer = scanner.nextInt();
 
             if (answer == 1) {
                 this.setCourseDate();
             } else if (answer == 2) {
-                this.addCourseDay();
+                this.addCourseHour();
             } else if (answer == 3) {
                 try {
                     System.out.println(this.getCourseDate());
                     System.out.println(this.getCourseHours());
+                    continue;
                 } catch (NullPointerException e) {
                     System.out.println("You need to enter the course's details!");
                     continue;
@@ -83,13 +85,31 @@ public class Course {
         this.courseNumber = courseNumber;
     }
 
+    // Getters and Setters methods for course's dates
+
+    public LocalDate getStartDate() {
+        return this.startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return this.endDate;
+    }
+
+    public LocalDate getIntraDate() {
+        return this.intraDate;
+    }
+
+    public LocalDate getFinalDate() {
+        return this.finalDate;
+    }
+
     /**
      * Add course's hour to a day in the week
      * 1 - Monday, 2 - Tuesday, 3 - Wednesday, 4 - Thurday
      * 5 - Friday, 6 - Saturday, 7 - Sunday
      * 
      */
-    public void addCourseDay() {
+    public void addCourseHour() {
         List<Object> courseHour = new ArrayList<>();
 
         // -------------------------------------------------------------------------------------------
@@ -109,20 +129,20 @@ public class Course {
         // -------------------------------------------------------------------------------------------
         // Get and validate input for course's start hour
         while (true) {
-            int numHour;
+            String startHourInput;
             do {
                 System.out.print(
-                        "Enter the course's START HOUR for " + DayOfWeek.of(dayOfWeek) + " with the form of (hhmm): ");
+                        "Enter the course's START HOUR on " + DayOfWeek.of(dayOfWeek) + " in the form of (HHMM): ");
                 while (!scanner.hasNextInt()) {
                     System.out.println("Not a number. Try again!");
                     scanner.next();
                 }
-                numHour = scanner.nextInt();
-            } while (String.valueOf(numHour).length() != 4);
+                startHourInput = scanner.next();
+            } while (startHourInput.length() != 4);
 
-            String startHourInput = String.valueOf(numHour);
             try {
-                LocalTime startHour = LocalTime.of(Integer.parseInt(startHourInput.substring(0, 2)),
+                LocalTime startHour = LocalTime.of(Integer.parseInt(
+                        startHourInput.substring(0, 2)),
                         Integer.parseInt(startHourInput.substring(2)));
                 courseHour.add(startHour);
                 break;
@@ -135,18 +155,17 @@ public class Course {
         // -------------------------------------------------------------------------------------------
         // Get and validate input for course's end hour
         while (true) {
-            int numHour;
+            String endHourInput;
             do {
                 System.out.print(
-                        "Enter the course's END HOUR for " + DayOfWeek.of(dayOfWeek) + " with the form of (HHMM): ");
+                        "Enter the course's END HOUR on " + DayOfWeek.of(dayOfWeek) + " in the form of (HHMM): ");
                 while (!scanner.hasNextInt()) {
                     System.out.println("Not a number. Try again!");
                     scanner.next();
                 }
-                numHour = scanner.nextInt();
-            } while (String.valueOf(numHour).length() != 4);
+                endHourInput = scanner.next();
+            } while (endHourInput.length() != 4);
 
-            String endHourInput = String.valueOf(numHour);
             try {
                 LocalTime endHour = LocalTime.of(Integer.parseInt(endHourInput.substring(0, 2)),
                         Integer.parseInt(endHourInput.substring(2)));
@@ -158,93 +177,84 @@ public class Course {
             }
         }
 
+        courseHours.add(courseHour);
+
+    }
+
+    /**
+     * Set one of the dates for the course
+     * 1 - Start date, 2 - End date
+     * 3 - Intra, 4 - Final
+     * 
+     */
+    public void setCourseDate() {
+        if (this.courseYear == 0) {
+            int courseYear;
+            do {
+                System.out.print("Enter the course's year (YYYY): ");
+                while (!scanner.hasNextInt()) {
+                    System.out.println("Not a number. Try again");
+                    scanner.next();
+                }
+                courseYear = scanner.nextInt();
+                this.courseYear = courseYear;
+            } while (String.valueOf(courseYear).length() != 4);
+        }
+
+        // -------------------------------------------------------------------------------------------
+        // Validate date input from user
+        while (true) {
+            String dateInput;
+            do {
+                System.out.print("Enter the date in the form (MMDD): ");
+                while (!scanner.hasNextInt()) {
+                    System.out.println("Not a number. Try again!");
+                    scanner.next();
+                }
+                dateInput = scanner.next();
+
+            } while (dateInput.length() != 4);
+
+            // Decide which date to set (Start date / End date / Intra / Final)
+            System.out.println("Which date do you want to set?\n 1 - Start date; 2 - End date; 3 - Intra; 4 - Final");
+            while (!scanner.hasNextInt()) {
+                System.out.println("Enter a valid number choice");
+                continue;
+            }
+            int answer = scanner.nextInt();
+
+            try {
+                LocalDate courseDate = LocalDate.of(courseYear, Integer.parseInt(dateInput.substring(0, 2)),
+                        Integer.parseInt(dateInput.substring(2)));
+                if (answer == 1) {
+                    this.startDate = courseDate;
+                    break;
+                } else if (answer == 2) {
+                    this.endDate = courseDate;
+                    break;
+                } else if (answer == 3) {
+                    this.intraDate = courseDate;
+                    break;
+                } else if (answer == 4) {
+                    this.finalDate = courseDate;
+                    break;
+                }
+            } catch (DateTimeException e) {
+                System.out.println("Enter a valid date and month!");
+                continue;
+            }
+        }
     }
 
     // Display the course hours
     public String getCourseHours() {
         String result = "";
         for (List<Object> courseHour : courseHours) {
-            result += "Course's hour for " + courseHour.get(0) + ": "
-                    + courseHour.get(1) + "-" + courseHour.get(2) + "\n";
+            result += "Course's hour on " + courseHour.get(0) + ": "
+                    + courseHour.get(1) + "-" + courseHour.get(2);
         }
 
         return result;
-    }
-
-    // Getters and Setters methods for course's dates
-
-    public LocalDate getStartDate() {
-        return this.startDate;
-    }
-
-    public LocalDate getEndDate() {
-        return this.endDate;
-    }
-
-    public LocalDate getIntraDate() {
-        return this.intraDate;
-    }
-
-    public LocalDate getFinalDate() {
-        return this.finalDate;
-    }
-
-    public void setCourseDate() {
-        System.out.print("Enter the course's year: ");
-        int courseYear = scanner.nextInt();
-
-        /*
-         * -----------------------------------------------------------------------------
-         * -----------------
-         */
-        System.out.print("Enter the course's start month: ");
-        int startMonth = scanner.nextInt();
-
-        System.out.print("Enter the course's start date: ");
-        int startDate = scanner.nextInt();
-
-        LocalDate courseStartDate = LocalDate.of(courseYear, startMonth, startDate);
-        this.startDate = courseStartDate;
-
-        /*
-         * -----------------------------------------------------------------------------
-         * -----------------
-         */
-        System.out.print("Enter the course's end month: ");
-        int endMonth = scanner.nextInt();
-
-        System.out.print("Enter the course's end date: ");
-        int endDate = scanner.nextInt();
-
-        LocalDate courseEndDate = LocalDate.of(courseYear, endMonth, endDate);
-        this.endDate = courseEndDate;
-
-        /*
-         * -----------------------------------------------------------------------------
-         * -----------------
-         */
-        System.out.print("Enter the intra's month: ");
-        int intraMonth = scanner.nextInt();
-
-        System.out.print("Enter the intra's date: ");
-        int intraDate = scanner.nextInt();
-
-        LocalDate courseIntraDate = LocalDate.of(courseYear, intraMonth, intraDate);
-        this.intraDate = courseIntraDate;
-
-        /*
-         * -----------------------------------------------------------------------------
-         * -----------------
-         */
-        System.out.print("Enter the final's month: ");
-        int finalMonth = scanner.nextInt();
-
-        System.out.print("Enter the final's date: ");
-        int finalDate = scanner.nextInt();
-
-        LocalDate courseFinalDate = LocalDate.of(courseYear, finalMonth, finalDate);
-        this.finalDate = courseFinalDate;
-
     }
 
     // Date formatter as a string (e.g: 6-Jul-2022)
@@ -256,7 +266,7 @@ public class Course {
                 + "Start Date: " + this.getStartDate().format(formattedDate) + "\n"
                 + "End Date: " + this.getEndDate().format(formattedDate) + "\n"
                 + "Intra Date: " + this.getIntraDate().format(formattedDate) + "\n"
-                + "Final Date: " + this.getFinalDate().format(formattedDate) + "\n";
+                + "Final Date: " + this.getFinalDate().format(formattedDate);
     }
 
     @Override
