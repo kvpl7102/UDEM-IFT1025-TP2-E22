@@ -1,12 +1,12 @@
 import java.util.*;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class Course {
 
     private String courseSubject;
     private int courseNumber;
-    private int courseYear = 0;
 
     private LocalDate startDate;
     private LocalDate endDate;
@@ -28,37 +28,39 @@ public class Course {
          * 3 - See course's infos; 4 - Quit the setup
          * 
          */
-        while (true) {
-            scanner.reset();
-            System.out.println(
-                    "\nWhat would you like to do? Enter the appropriate number choice: \n 1 - Set up course's dates; 2 - Set up course's hours; 3 - See course's infos; 4 - Quit ");
+        // while (true) {
+        // scanner.reset();
+        // System.out.println(
+        // "\nWhat would you like to do? Enter the appropriate number choice: \n 1 - Set
+        // up course's dates; 2 - Set up course's hours; 3 - See course's infos; 4 -
+        // Quit ");
 
-            while (!scanner.hasNextInt()) {
-                System.out.println("Enter a valid number choice");
-                scanner.next();
-            }
-            int answer = scanner.nextInt();
+        // while (!scanner.hasNextInt()) {
+        // System.out.println("Enter a valid number choice");
+        // scanner.next();
+        // }
+        // int choice = scanner.nextInt();
 
-            if (answer == 1) {
-                this.setCourseDate();
-            } else if (answer == 2) {
-                this.addCourseHour();
-            } else if (answer == 3) {
-                try {
-                    System.out.println(this.getCourseDate());
-                    System.out.println(this.getCourseHours());
-                    continue;
-                } catch (NullPointerException e) {
-                    System.out.println("You need to enter the course's details!");
-                    continue;
-                }
-            } else if (answer == 4) {
-                break;
-            } else {
-                System.out.println("Enter a valid number choice");
-                continue;
-            }
-        }
+        // if (choice == 1) {
+        // this.setCourseDate();
+        // } else if (choice == 2) {
+        // this.addCourseHour();
+        // } else if (choice == 3) {
+        // try {
+        // System.out.println(this.getCourseDate());
+        // System.out.println(this.getCourseHours());
+        // continue;
+        // } catch (NullPointerException e) {
+        // System.out.println("You need to enter the course's details!");
+        // continue;
+        // }
+        // } else if (choice == 4) {
+        // break;
+        // } else {
+        // System.out.println("Enter a valid number choice");
+        // continue;
+        // }
+        // }
     }
 
     /**
@@ -188,62 +190,58 @@ public class Course {
      * 
      */
     public void setCourseDate() {
-        if (this.courseYear == 0) {
-            int courseYear;
-            do {
-                System.out.print("Enter the course's year (YYYY): ");
-                while (!scanner.hasNextInt()) {
-                    System.out.println("Not a number. Try again");
-                    scanner.next();
-                }
-                courseYear = scanner.nextInt();
-                this.courseYear = courseYear;
-            } while (String.valueOf(courseYear).length() != 4);
-        }
-
-        // -------------------------------------------------------------------------------------------
-        // Validate date input from user
+        LocalDate dateInput;
         while (true) {
-            String dateInput;
+            int answer;
             do {
-                System.out.print("Enter the date in the form (MMDD): ");
+                System.out.print("1 - Set a date; 2 - Quit:  ");
                 while (!scanner.hasNextInt()) {
-                    System.out.println("Not a number. Try again!");
+                    System.out.println("Not a number! Try again");
                     scanner.next();
                 }
-                dateInput = scanner.next();
+                answer = scanner.nextInt();
+            } while (answer < 1 || answer > 2);
 
-            } while (dateInput.length() != 4);
+            if (answer == 2) {
+                break;
+            } else {
+                System.out.print("Enter a date(YYYY-MM-DD): ");
+                String dateString = scanner.next();
 
-            // Decide which date to set (Start date / End date / Intra / Final)
-            System.out.println("Which date do you want to set?\n 1 - Start date; 2 - End date; 3 - Intra; 4 - Final");
-            while (!scanner.hasNextInt()) {
-                System.out.println("Enter a valid number choice");
-                continue;
-            }
-            int answer = scanner.nextInt();
-
-            try {
-                LocalDate courseDate = LocalDate.of(courseYear, Integer.parseInt(dateInput.substring(0, 2)),
-                        Integer.parseInt(dateInput.substring(2)));
-                if (answer == 1) {
-                    this.startDate = courseDate;
-                    break;
-                } else if (answer == 2) {
-                    this.endDate = courseDate;
-                    break;
-                } else if (answer == 3) {
-                    this.intraDate = courseDate;
-                    break;
-                } else if (answer == 4) {
-                    this.finalDate = courseDate;
-                    break;
+                try {
+                    dateInput = LocalDate.parse(dateString);
+                } catch (DateTimeParseException e) {
+                    System.out.println("Enter a valid input of date and month (YYYY-MM-DD)!");
+                    continue;
                 }
-            } catch (DateTimeException e) {
-                System.out.println("Enter a valid date and month!");
-                continue;
+
+                int choice;
+                do {
+                    System.out.println("Which date do you want to set?\n 1-Start; 2-End; 3-Intra; 4-Final");
+                    while (!scanner.hasNextInt()) {
+                        System.out.println("Not a number! Try again");
+                        scanner.next();
+                    }
+                    choice = scanner.nextInt();
+                } while (choice < 1 || choice > 4);
+
+                if (choice == 1) {
+                    this.startDate = dateInput;
+                    continue;
+                } else if (choice == 2) {
+                    this.endDate = dateInput;
+                    continue;
+                } else if (choice == 3) {
+                    this.intraDate = dateInput;
+                    continue;
+                } else if (choice == 4) {
+                    this.finalDate = dateInput;
+                    continue;
+                }
             }
+
         }
+
     }
 
     // Display the course hours
