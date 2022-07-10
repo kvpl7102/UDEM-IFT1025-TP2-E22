@@ -7,6 +7,7 @@ public class Course {
 
     private String courseSubject;
     private int courseNumber;
+    private int courseCredits;
 
     private LocalDate startDate;
     private LocalDate endDate;
@@ -18,9 +19,10 @@ public class Course {
     Scanner scanner = new Scanner(System.in);
 
     // Course constructor
-    public Course(String courseSubject, int courseNumber) {
+    public Course(String courseSubject, int courseNumber, int courseCredits) {
         this.setCourseSubject(courseSubject);
         this.setCourseNumber(courseNumber);
+        this.setCourseCredits(courseCredits);
 
         /**
          * Setup the course. Enter a valid input to perform diffent actions:
@@ -63,13 +65,23 @@ public class Course {
         // }
     }
 
-    /**
-     * Getters and Setters methods for course's name and course's number
-     * 
-     */
-    // Getter for course name
+    // Getters for course attributes (Subject, number, credits)
     public String getCourseSubject() {
         return this.courseSubject;
+    }
+
+    public int getCourseCredits() {
+        return this.courseCredits;
+    }
+
+    public int getCourseNumber() {
+        return this.courseNumber;
+    }
+
+    // -------------------------------------------------------------------------------------------
+    // Setters for course attributes (Subject, number, credits)
+    public void setCourseNumber(int courseNumber) {
+        this.courseNumber = courseNumber;
     }
 
     // Setter for course name
@@ -77,16 +89,11 @@ public class Course {
         this.courseSubject = courseSubject;
     }
 
-    // Getter for course number
-    public int getCourseNumber() {
-        return this.courseNumber;
+    public void setCourseCredits(int courseCredits) {
+        this.courseCredits = courseCredits;
     }
 
-    // Setter for course number
-    public void setCourseNumber(int courseNumber) {
-        this.courseNumber = courseNumber;
-    }
-
+    // -------------------------------------------------------------------------------------------
     // Getters and Setters methods for course's dates
 
     public LocalDate getStartDate() {
@@ -132,24 +139,16 @@ public class Course {
         // Get and validate input for course's start hour
         while (true) {
             String startHourInput;
-            do {
-                System.out.print(
-                        "Enter the course's START HOUR on " + DayOfWeek.of(dayOfWeek) + " in the form of (HHMM): ");
-                while (!scanner.hasNextInt()) {
-                    System.out.println("Not a number. Try again!");
-                    scanner.next();
-                }
-                startHourInput = scanner.next();
-            } while (startHourInput.length() != 4);
+            System.out.print(
+                    "Enter the course's START HOUR (HH:MM) on " + DayOfWeek.of(dayOfWeek) + ": ");
+            startHourInput = scanner.next();
 
             try {
-                LocalTime startHour = LocalTime.of(Integer.parseInt(
-                        startHourInput.substring(0, 2)),
-                        Integer.parseInt(startHourInput.substring(2)));
+                LocalTime startHour = LocalTime.parse(startHourInput);
                 courseHour.add(startHour);
                 break;
-            } catch (DateTimeException e) {
-                System.out.println("Enter a valid number of hour!");
+            } catch (DateTimeParseException e) {
+                System.out.println("Enter a valid input of hour!");
                 continue;
             }
         }
@@ -158,29 +157,21 @@ public class Course {
         // Get and validate input for course's end hour
         while (true) {
             String endHourInput;
-            do {
-                System.out.print(
-                        "Enter the course's END HOUR on " + DayOfWeek.of(dayOfWeek) + " in the form of (HHMM): ");
-                while (!scanner.hasNextInt()) {
-                    System.out.println("Not a number. Try again!");
-                    scanner.next();
-                }
-                endHourInput = scanner.next();
-            } while (endHourInput.length() != 4);
+            System.out.print(
+                    "Enter the course's END HOUR (HH:MM) on " + DayOfWeek.of(dayOfWeek) + ": ");
+            endHourInput = scanner.next();
 
             try {
-                LocalTime endHour = LocalTime.of(Integer.parseInt(endHourInput.substring(0, 2)),
-                        Integer.parseInt(endHourInput.substring(2)));
+                LocalTime endHour = LocalTime.parse(endHourInput);
                 courseHour.add(endHour);
                 break;
-            } catch (DateTimeException e) {
-                System.out.println("Enter a valid number of hour!");
+            } catch (DateTimeParseException e) {
+                System.out.println("Enter a valid input of hour!");
                 continue;
             }
         }
 
         courseHours.add(courseHour);
-
     }
 
     /**
@@ -244,17 +235,6 @@ public class Course {
 
     }
 
-    // Display the course hours
-    public String getCourseHours() {
-        String result = "";
-        for (List<Object> courseHour : courseHours) {
-            result += "Course's hour on " + courseHour.get(0) + ": "
-                    + courseHour.get(1) + "-" + courseHour.get(2);
-        }
-
-        return result;
-    }
-
     // Date formatter as a string (e.g: 6-Jul-2022)
     DateTimeFormatter formattedDate = DateTimeFormatter.ofPattern("dd-MMM-yyyy");
 
@@ -265,6 +245,16 @@ public class Course {
                 + "End Date: " + this.getEndDate().format(formattedDate) + "\n"
                 + "Intra Date: " + this.getIntraDate().format(formattedDate) + "\n"
                 + "Final Date: " + this.getFinalDate().format(formattedDate);
+    }
+
+    // Display the course hours
+    public String getCourseHours() {
+        String result = "";
+        for (List<Object> courseHour : courseHours) {
+            result += "Course's hour on " + courseHour.get(0) + ": "
+                    + courseHour.get(1) + "-" + courseHour.get(2);
+        }
+        return result;
     }
 
     @Override

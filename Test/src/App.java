@@ -1,13 +1,12 @@
-import java.time.*;
-import java.time.format.DateTimeFormatter;
+// import java.time.*;
+// import java.time.format.DateTimeFormatter;
 
 public class App {
     public static void main(String[] args) {
 
-        // CourseSystem coursesList = new CourseSystem();
-        Course course1 = new Course("IFT", 1025);
-        course1.setCourseDate();
-        // coursesList.addToCoursesList(course1);
+        Course course1 = new Course("IFT", 1025, 3);
+        // course1.setCourseDate();
+        // course1.addCourseHour();
 
     }
 }
