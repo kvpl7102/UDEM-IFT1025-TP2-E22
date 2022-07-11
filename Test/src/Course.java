@@ -14,7 +14,7 @@ public class Course {
     private LocalDate intraDate;
     private LocalDate finalDate;
 
-    private List<List<Object>> courseHours = new ArrayList<>();
+    public List<List<Object>> courseHours = new ArrayList<>();
 
     Scanner scanner = new Scanner(System.in);
 
@@ -23,46 +23,6 @@ public class Course {
         this.setCourseSubject(courseSubject);
         this.setCourseNumber(courseNumber);
         this.setCourseCredits(courseCredits);
-
-        /**
-         * Setup the course. Enter a valid input to perform diffent actions:
-         * 1 - Set up course's dates; 2 - Set up course's hours
-         * 3 - See course's infos; 4 - Quit the setup
-         * 
-         */
-        // while (true) {
-        // scanner.reset();
-        // System.out.println(
-        // "\nWhat would you like to do? Enter the appropriate number choice: \n 1 - Set
-        // up course's dates; 2 - Set up course's hours; 3 - See course's infos; 4 -
-        // Quit ");
-
-        // while (!scanner.hasNextInt()) {
-        // System.out.println("Enter a valid number choice");
-        // scanner.next();
-        // }
-        // int choice = scanner.nextInt();
-
-        // if (choice == 1) {
-        // this.setCourseDate();
-        // } else if (choice == 2) {
-        // this.addCourseHour();
-        // } else if (choice == 3) {
-        // try {
-        // System.out.println(this.getCourseDate());
-        // System.out.println(this.getCourseHours());
-        // continue;
-        // } catch (NullPointerException e) {
-        // System.out.println("You need to enter the course's details!");
-        // continue;
-        // }
-        // } else if (choice == 4) {
-        // break;
-        // } else {
-        // System.out.println("Enter a valid number choice");
-        // continue;
-        // }
-        // }
     }
 
     // Getters for course attributes (Subject, number, credits)
@@ -119,13 +79,14 @@ public class Course {
      * 
      */
     public void addCourseHour() {
+
         List<Object> courseHour = new ArrayList<>();
 
         // -------------------------------------------------------------------------------------------
         // Get and validate input for day of week.
         int dayOfWeek;
         do {
-            System.out.print("Enter the day of the week to add course's hour: ");
+            System.out.print("Enter the DAY OF THE WEEK to add course's hour: ");
             while (!scanner.hasNextInt()) {
                 System.out.println("Not a number. Try again!");
                 scanner.next();
@@ -170,7 +131,6 @@ public class Course {
                 continue;
             }
         }
-
         courseHours.add(courseHour);
     }
 
@@ -248,13 +208,8 @@ public class Course {
     }
 
     // Display the course hours
-    public String getCourseHours() {
-        String result = "";
-        for (List<Object> courseHour : courseHours) {
-            result += "Course's hour on " + courseHour.get(0) + ": "
-                    + courseHour.get(1) + "-" + courseHour.get(2);
-        }
-        return result;
+    public List<List<Object>> getCourseHours() {
+        return this.courseHours;
     }
 
     @Override
