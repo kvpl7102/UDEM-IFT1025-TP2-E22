@@ -1,12 +1,25 @@
 import java.util.*;
 import java.time.*;
 
+/**
+ * Create an instance of Student that has a name and an ID.
+ * Each student has a schedule containing all enrolled courses.
+ * Student can remove a course from schedule, or add a new course from
+ * the courses list to the schedule as long as they don't have time conflicts.
+ * 
+ */
 public class Student {
 
     private String name;
     private int id;
     public List<Course> schedule = new ArrayList<>();
 
+    /**
+     * Contructor of Student class
+     * 
+     * @param name: name of the student
+     * @param id:   student ID
+     */
     Student(String name, int id) {
         this.name = name;
         this.id = id;
@@ -15,8 +28,8 @@ public class Student {
     /**
      * Enroll to a course in the system if the conditions are met
      * 
-     * @param String courseSubject
-     * @param int    courseNumber
+     * @param courseSubject: course's subject to add to schedule
+     * @param courseNumber:  course's number to add to schedule
      * 
      */
     public void addCourse(String courseSubject, int courseNumber) {
@@ -39,13 +52,12 @@ public class Student {
                 conflitHoraire = false;
             } else if (schedule.contains(wantedCourse)) { // If student's schedule already contains the course...
                 System.out.println("You've  already enrolled to " + wantedCourse.toString());
-            } else if (schedule.size() >= 10) { // If maximum amount of courses enrolled reached...
-                System.out.println("Your schedule can only have up to 10 courses!");
+
             } else {
                 List<List<Object>> wantedCourseHours = wantedCourse.courseHours;
 
                 for (Course myCourse : schedule) {
-                    // Verify if the exams date are set
+                    // Verify if the exams date are set or not
                     if (wantedCourse.getIntraDate() == null || wantedCourse.getFinalDate() == null) {
                         System.out.println("You need to set the exams date for " + wantedCourse.toString());
                         break;
@@ -53,12 +65,14 @@ public class Student {
                         System.out.println("You need to set the exams date for " + myCourse.toString());
                         break;
                     } else { // Verify if the exams date of the courses are too close to each other
+
                         if (wantedCourse.getIntraDate().isEqual(myCourse.getIntraDate())
                                 || wantedCourse.getIntraDate().isEqual(myCourse.getFinalDate())
                                 || wantedCourse.getFinalDate().isEqual(myCourse.getIntraDate())
                                 || wantedCourse.getFinalDate().isEqual(myCourse.getFinalDate())) {
                             System.out.println("\n" + wantedCourse + " has conflicted exams date with " + myCourse);
                             break;
+
                         } else {
                             List<List<Object>> myCourseHours = myCourse.courseHours;
                             for (List<Object> myCourseHour : myCourseHours) {
@@ -105,8 +119,8 @@ public class Student {
     /**
      * Remove a course in the schedule
      * 
-     * @param String courseSubject
-     * @param int    courseNumber
+     * @param courseSubject: course's subject to remove
+     * @param courseNumber:  course's number to remove
      * 
      */
     public void removeCourse(String courseSubject, int courseNumber) {
@@ -133,8 +147,12 @@ public class Student {
         }
     }
 
-    // Print out the student schedule
+    /**
+     * Print the student's schedule
+     * 
+     */
     public void printSchedule() {
+        System.out.println("\n" + this.name + "'s schedule: \n");
         for (Course myCourse : schedule) {
             System.out.println(myCourse.displayCourseInfos());
         }

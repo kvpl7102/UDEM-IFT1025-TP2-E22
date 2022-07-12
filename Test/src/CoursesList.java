@@ -1,18 +1,29 @@
 import java.util.*;
 
+/**
+ * Courses List that contains all the courses student can enroll
+ * 
+ */
 public class CoursesList {
 
     public static List<Course> coursesList = new ArrayList<>();
 
-    // Add a course to the courses list
+    /**
+     * Add an instance of course to the course list
+     * 
+     * @param course: a Course object
+     */
     public void addToCoursesList(Course course) {
         coursesList.add(course);
     }
 
-    // Display all the course in the list
+    /**
+     * Display all the courses' infos in the courses list
+     * 
+     */
     public void displayCourses() {
         for (Course course : coursesList) {
-            System.out.println(course);
+            System.out.println(course.displayCourseInfos());
         }
     }
 

@@ -3,6 +3,10 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+/**
+ * Object Course represents an instance of course for student to enroll
+ * 
+ */
 public class Course {
 
     private String courseSubject;
@@ -18,61 +22,118 @@ public class Course {
 
     Scanner scanner = new Scanner(System.in);
 
-    // Course constructor
+    /**
+     * Contructor of Course class
+     * 
+     * @param courseSubject: name of the subject
+     * @param courseNumber:  number of the course
+     * @param courseCredits: number of credits
+     */
     public Course(String courseSubject, int courseNumber, int courseCredits) {
         this.setCourseSubject(courseSubject);
         this.setCourseNumber(courseNumber);
         this.setCourseCredits(courseCredits);
     }
 
-    // Getters for course attributes (Subject, number, credits)
+    /**
+     * Getter of courseSubject
+     * 
+     * @return name of the course's subject
+     */
     public String getCourseSubject() {
         return this.courseSubject;
     }
 
+    /**
+     * Getter of courseCredits
+     * 
+     * @return number of credits this course has
+     */
     public int getCourseCredits() {
         return this.courseCredits;
     }
 
+    /**
+     * Getter of courseNumber
+     * 
+     * @return the course's number
+     */
     public int getCourseNumber() {
         return this.courseNumber;
     }
 
     // -------------------------------------------------------------------------------------------
-    // Setters for course attributes (Subject, number, credits)
+
+    /**
+     * Setter for courseNumber
+     * 
+     * @param courseNumber: the course's number to set to
+     */
     public void setCourseNumber(int courseNumber) {
         this.courseNumber = courseNumber;
     }
 
-    // Setter for course name
+    /**
+     * Setter for courseSubject
+     * 
+     * @param courseSubject: the course's subject to set to
+     */
     public void setCourseSubject(String courseSubject) {
         this.courseSubject = courseSubject;
     }
 
+    /**
+     * Setter for courseCredits
+     * 
+     * @param courseCredits: the number of credits to set to
+     */
     public void setCourseCredits(int courseCredits) {
         this.courseCredits = courseCredits;
     }
 
     // -------------------------------------------------------------------------------------------
-    // Getters and Setters methods for course's dates
 
+    /**
+     * Getter for startDate
+     * 
+     * @return the start date of the course
+     */
     public LocalDate getStartDate() {
         return this.startDate;
     }
 
+    /**
+     * Getter for endDate
+     * 
+     * @return the end date of the course
+     */
     public LocalDate getEndDate() {
         return this.endDate;
     }
 
+    /**
+     * Getter for intraDate
+     * 
+     * @return the date of the midterm exam
+     */
     public LocalDate getIntraDate() {
         return this.intraDate;
     }
 
+    /**
+     * Getter for finalDate
+     * 
+     * @return the date of the final exam
+     */
     public LocalDate getFinalDate() {
         return this.finalDate;
     }
 
-    // Getter for the course hours
+    /**
+     * Getter for course's hours
+     * 
+     * @return a 2D arrayList of all the course's hours in the week
+     */
     public List<List<Object>> getCourseHours() {
         return this.courseHours;
     }
@@ -142,7 +203,7 @@ public class Course {
     /**
      * Set one of the dates for the course
      * 1 - Start date, 2 - End date
-     * 3 - Intra, 4 - Final
+     * 3 - Intra exam, 4 - Final exam
      * 
      */
     public void setCourseDate() {
@@ -203,7 +264,10 @@ public class Course {
     // Date formatter as a string (e.g: 6-Jul-2022)
     DateTimeFormatter formattedDate = DateTimeFormatter.ofPattern("dd-MMM-yyyy");
 
-    // Display all the course's infos
+    /**
+     * Display all the course's infos
+     * 
+     */
     public String displayCourseInfos() {
         List<List<Object>> courseDays = this.getCourseHours();
         return "\nCourse: " + this.toString() + "\n"
