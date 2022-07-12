@@ -72,6 +72,11 @@ public class Course {
         return this.finalDate;
     }
 
+    // Getter for the course hours
+    public List<List<Object>> getCourseHours() {
+        return this.courseHours;
+    }
+
     /**
      * Add course's hour to a day in the week
      * 1 - Monday, 2 - Tuesday, 3 - Wednesday, 4 - Thurday
@@ -86,7 +91,7 @@ public class Course {
         // Get and validate input for day of week.
         int dayOfWeek;
         do {
-            System.out.print("Enter the DAY OF THE WEEK to add course's hour: ");
+            System.out.print("\nEnter the DAY OF THE WEEK to add course's hour for " + this.toString() + ": ");
             while (!scanner.hasNextInt()) {
                 System.out.println("Not a number. Try again!");
                 scanner.next();
@@ -145,7 +150,7 @@ public class Course {
         while (true) {
             int answer;
             do {
-                System.out.print("1 - Set a date; 2 - Quit:  ");
+                System.out.print("\nFor " + this.toString() + ": " + " 1 - Set a date; 2 - Quit:  ");
                 while (!scanner.hasNextInt()) {
                     System.out.println("Not a number! Try again");
                     scanner.next();
@@ -162,7 +167,7 @@ public class Course {
                 try {
                     dateInput = LocalDate.parse(dateString);
                 } catch (DateTimeParseException e) {
-                    System.out.println("Enter a valid input of date and month (YYYY-MM-DD)!");
+                    System.out.println("Enter a valid input of date and month! (YYYY-MM-DD)");
                     continue;
                 }
 
@@ -198,23 +203,20 @@ public class Course {
     // Date formatter as a string (e.g: 6-Jul-2022)
     DateTimeFormatter formattedDate = DateTimeFormatter.ofPattern("dd-MMM-yyyy");
 
-    // Display all the course's dates
-    public String getCourseDate() {
-        return "\nCourse: " + this.getCourseSubject() + this.getCourseNumber() + "\n"
+    // Display all the course's infos
+    public String displayCourseInfos() {
+        List<List<Object>> courseDays = this.getCourseHours();
+        return "\nCourse: " + this.toString() + "\n"
                 + "Start Date: " + this.getStartDate().format(formattedDate) + "\n"
                 + "End Date: " + this.getEndDate().format(formattedDate) + "\n"
                 + "Intra Date: " + this.getIntraDate().format(formattedDate) + "\n"
-                + "Final Date: " + this.getFinalDate().format(formattedDate);
-    }
-
-    // Display the course hours
-    public List<List<Object>> getCourseHours() {
-        return this.courseHours;
+                + "Final Date: " + this.getFinalDate().format(formattedDate) + "\n"
+                + "Course hours: " + courseDays + "\n";
     }
 
     @Override
     public String toString() {
-        return this.courseSubject + this.courseNumber;
+        return this.getCourseSubject() + this.getCourseNumber();
     }
 
 }
