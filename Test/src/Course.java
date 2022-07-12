@@ -18,7 +18,7 @@ public class Course {
     private LocalDate intraDate;
     private LocalDate finalDate;
 
-    public List<List<Object>> courseHours = new ArrayList<>();
+    private List<List<Object>> courseHours = new ArrayList<>();
 
     Scanner scanner = new Scanner(System.in);
 
@@ -197,6 +197,33 @@ public class Course {
                 continue;
             }
         }
+
+        // -------------------------------------------------------------------------------------------
+        // Set which type of course this is for (Theory / Practical / LAB)
+        String courseHourType;
+        do {
+            System.out.print(
+                    this.toString() + " course's hour of:\n T - Theory course; P - Practical course; L - LAB:  ");
+            while (!scanner.hasNext()) {
+                scanner.next();
+            }
+            courseHourType = scanner.next();
+        } while (!courseHourType.equalsIgnoreCase("T") && !courseHourType.equalsIgnoreCase("P") && !courseHourType
+                .equalsIgnoreCase("L"));
+
+        courseHourType = courseHourType.toUpperCase();
+        switch (courseHourType) {
+            case "T":
+                courseHour.add("Theory");
+                break;
+            case "P":
+                courseHour.add("Practical");
+                break;
+            case "L":
+                courseHour.add("LAB");
+                break;
+        }
+
         courseHours.add(courseHour);
     }
 
@@ -270,7 +297,7 @@ public class Course {
      */
     public String displayCourseInfos() {
         List<List<Object>> courseDays = this.getCourseHours();
-        return "\nCourse: " + this.toString() + "\n"
+        return "\nCourse: " + this.toString() + ". Nombre de crédits: " + this.getCourseCredits() + "\n"
                 + "Start Date: " + this.getStartDate().format(formattedDate) + "\n"
                 + "End Date: " + this.getEndDate().format(formattedDate) + "\n"
                 + "Intra Date: " + this.getIntraDate().format(formattedDate) + "\n"

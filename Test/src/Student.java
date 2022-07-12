@@ -10,8 +10,8 @@ import java.time.*;
  */
 public class Student {
 
-    private String name;
-    private int id;
+    public String name;
+    public int id;
     public List<Course> schedule = new ArrayList<>();
 
     /**
@@ -54,7 +54,7 @@ public class Student {
                 System.out.println("You've  already enrolled to " + wantedCourse.toString());
 
             } else {
-                List<List<Object>> wantedCourseHours = wantedCourse.courseHours;
+                List<List<Object>> wantedCourseHours = wantedCourse.getCourseHours();
 
                 for (Course myCourse : schedule) {
                     // Verify if the exams date are set or not
@@ -74,7 +74,7 @@ public class Student {
                             break;
 
                         } else {
-                            List<List<Object>> myCourseHours = myCourse.courseHours;
+                            List<List<Object>> myCourseHours = myCourse.getCourseHours();
                             for (List<Object> myCourseHour : myCourseHours) {
 
                                 for (List<Object> wantedCourseHour : wantedCourseHours) {
