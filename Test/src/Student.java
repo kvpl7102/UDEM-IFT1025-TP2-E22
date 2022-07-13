@@ -1,3 +1,13 @@
+
+/**
+ * IFT 1025 - E22 - TP1
+ * Date: 12 Juillet 2022
+ * 
+ * @author Le Kinh Vi Phung - 20178538
+ * @author Belhachmi Adam  - 20160421
+ * 
+ */
+
 import java.util.*;
 import java.time.*;
 

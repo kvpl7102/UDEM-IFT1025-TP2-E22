@@ -1,10 +1,23 @@
+
+/**
+ * IFT 1025 - E22 - TP1
+ * Date: 12 Juillet 2022
+ * 
+ * @author Le Kinh Vi Phung - 20178538
+ * @author Belhachmi Adam  - 20160421
+ * 
+ */
+
 import java.util.*;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 /**
- * Object Course represents an instance of course for student to enroll
+ * A course represents a university course that has a value defined by credits.
+ * The course class uses private variables and setters/getters to use them
+ * outside of the class.
+ * A course can be created and added to a list of courses by the administrator
  * 
  */
 public class Course {
@@ -148,9 +161,11 @@ public class Course {
 
         List<Object> courseHour = new ArrayList<>();
 
+        int dayOfWeek;
+        LocalTime startHour;
+        LocalTime endHour;
         // -------------------------------------------------------------------------------------------
         // Get and validate input for day of week.
-        int dayOfWeek;
         do {
             System.out.print("\nEnter the DAY OF THE WEEK to add course's hour for " + this.toString() + ": ");
             while (!scanner.hasNextInt()) {
@@ -171,7 +186,7 @@ public class Course {
             startHourInput = scanner.next();
 
             try {
-                LocalTime startHour = LocalTime.parse(startHourInput);
+                startHour = LocalTime.parse(startHourInput);
                 courseHour.add(startHour);
                 break;
             } catch (DateTimeParseException e) {
@@ -189,9 +204,15 @@ public class Course {
             endHourInput = scanner.next();
 
             try {
-                LocalTime endHour = LocalTime.parse(endHourInput);
-                courseHour.add(endHour);
-                break;
+                endHour = LocalTime.parse(endHourInput);
+                // Verify that the end hour must be after than the start hour
+                if (endHour.isBefore(startHour)) {
+                    System.out.println("The end hour of the course must be after " + startHour);
+                    continue;
+                } else {
+                    courseHour.add(endHour);
+                    break;
+                }
             } catch (DateTimeParseException e) {
                 System.out.println("Enter a valid input of hour!");
                 continue;
