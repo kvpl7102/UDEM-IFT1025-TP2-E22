@@ -3,43 +3,58 @@ package FlappyGhost;
 import java.io.File;
 import java.util.Random;
 
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-public class Obstacle {
+public class Obstacle extends Sprite {
+
     Random random = new Random();
 
     private final int CANVAS_WIDTH = 640;
     private final int CANVAS_HEIGHT = 400;
+    private final int speed = 120;
 
-    private Sprite obstacleSprite;
+    // private Sprite this;
     private Image image;
+    private double obstacleType;
+    private boolean isGhostPassed = false;
 
-    public Obstacle() {
-        obstacleSprite = new Sprite();
+    public Obstacle(double obstacleType) {
+
+        this.obstacleType = obstacleType;
+
         File dir = new File("src/Images/obstacles");
         File[] images = dir.listFiles();
 
         image = new Image(images[random.nextInt(images.length)].getAbsolutePath());
-        obstacleSprite.setImage(image);
+        this.setImage(image);
+
+        setObstacle();
     }
 
-    public Sprite getObstacle(int obstacleType) {
-        switch (obstacleType) {
-            case 1:
-                obstacleSprite.setPosition(CANVAS_WIDTH,
-                        random.nextInt((int) Math.floor(CANVAS_HEIGHT - obstacleSprite.getHeight())));
-                obstacleSprite.setVelocity(-120, 0);
-                break;
+    public double getObstacleType() {
+        return obstacleType;
+    }
 
-            // case 2:
-            // obstacleSprite.setPosition(positionX, positionY);
-            // break;
+    public void setPassed() {
+        isGhostPassed = true;
+    }
 
-            // case 3:
-            // obstacleSprite.setPosition(positionX, positionY);
-            // break;
+    public boolean isPassed() {
+        return isGhostPassed;
+    }
 
-        }
-        return obstacleSprite;
+    public void setObstacle() {
+        int randHeightPos = (int) Math.floor(CANVAS_HEIGHT - this.getHeight());
+
+        this.setPosition(CANVAS_WIDTH, random.nextInt(randHeightPos));
+        this.setVelocity(-speed, 0);
+
+    }
+
+    @Override
+    public void render(GraphicsContext graphics) {
+        graphics.drawImage(image, this.getPositionX(), this.getPositionY());
+
     }
 }

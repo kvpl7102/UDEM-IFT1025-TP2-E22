@@ -4,7 +4,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-public class Sprite {
+public abstract class Sprite {
     private double positionX, positionY;
     private double velocityX, velocityY;
     private double width;
@@ -67,9 +67,25 @@ public class Sprite {
         this.positionY = positionY;
     }
 
+    public void setPositionX(double positionX) {
+        this.positionX = positionX;
+    }
+
+    public void setPositionY(double positionY) {
+        this.positionY = positionY;
+    }
+
+    public void setVelocityY(double velocityY) {
+        this.velocityY = velocityY;
+    }
+
     public void setVelocity(double velocityX, double velocityY) {
         this.velocityX = velocityX;
         this.velocityY = velocityY;
+    }
+
+    public boolean overlaps(Sprite s) {
+        return s.getBoundary().intersects(this.getBoundary());
     }
 
     /**
@@ -85,7 +101,7 @@ public class Sprite {
     }
 
     /**
-     * Update position of a sprite after deltaTime elapsed
+     * Update position of a sprite after elapsed time
      * 
      * @param deltaTime
      */
@@ -94,7 +110,6 @@ public class Sprite {
         positionY += deltaTime * velocityY;
     }
 
-    public void render(GraphicsContext graphics) {
-        graphics.drawImage(image, positionX, positionY);
-    }
+    public abstract void render(GraphicsContext graphics);
+
 }

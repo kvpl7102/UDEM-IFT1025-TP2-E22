@@ -3,12 +3,11 @@ package FlappyGhost;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-public class Ghost extends Sprite {
-
+public class Background extends Sprite {
     private Image image;
 
-    public Ghost() {
-        image = new Image("./Images/ghost.png");
+    public Background() {
+        image = new Image("./Images/bg.png");
         this.setImage(image);
     }
 
@@ -21,5 +20,4 @@ public class Ghost extends Sprite {
         graphics.drawImage(image, this.getPositionX(), this.getPositionY());
 
     }
-
 }

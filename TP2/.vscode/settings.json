@@ -1,0 +1,16 @@
+{
+  "java.project.sourcePaths": ["src"],
+  "java.project.outputPath": "bin",
+  "java.project.referencedLibraries": [
+    "lib/**/*.jar",
+    "d:\\UDEM\\E22\\IFT_1025\\javafx-sdk-18.0.1\\lib\\javafx.base.jar",
+    "d:\\UDEM\\E22\\IFT_1025\\javafx-sdk-18.0.1\\lib\\javafx.controls.jar",
+    "d:\\UDEM\\E22\\IFT_1025\\javafx-sdk-18.0.1\\lib\\javafx.fxml.jar",
+    "d:\\UDEM\\E22\\IFT_1025\\javafx-sdk-18.0.1\\lib\\javafx.graphics.jar",
+    "d:\\UDEM\\E22\\IFT_1025\\javafx-sdk-18.0.1\\lib\\javafx.media.jar",
+    "d:\\UDEM\\E22\\IFT_1025\\javafx-sdk-18.0.1\\lib\\javafx.swing.jar",
+    "d:\\UDEM\\E22\\IFT_1025\\javafx-sdk-18.0.1\\lib\\javafx.web.jar",
+    "d:\\UDEM\\E22\\IFT_1025\\javafx-sdk-18.0.1\\lib\\javafx-swt.jar"
+  ],
+  "java.format.settings.url": "eclipse-formatter.xml"
+}
