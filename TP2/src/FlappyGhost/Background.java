@@ -3,9 +3,17 @@ package FlappyGhost;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-public class Background extends Sprite {
+/**
+ * Cretet a background object that extends the Entity parent class
+ * 
+ */
+public class Background extends Entity {
     private Image image;
 
+    /**
+     * Set the image for the background
+     * 
+     */
     public Background() {
         image = new Image("./Images/bg.png");
         this.setImage(image);
@@ -16,8 +24,7 @@ public class Background extends Sprite {
     }
 
     @Override
-    public void render(GraphicsContext graphics) {
+    public void render(GraphicsContext graphics, boolean isDebug) {
         graphics.drawImage(image, this.getPositionX(), this.getPositionY());
-
     }
 }
